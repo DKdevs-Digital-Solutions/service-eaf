@@ -1,11 +1,12 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm i --omit=dev
 
-COPY package*.json ./
+COPY src ./src
+COPY .env.example ./.env.example
 
-RUN npm install
-
-COPY . .
-
+ENV NODE_ENV=production
+EXPOSE 3000
 CMD ["npm", "start"]
